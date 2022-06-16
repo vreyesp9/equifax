@@ -10,9 +10,7 @@ const config = require('../config/general');
 
 
 // Crear usuario
-const crearUsuario = async (req, resp = response) => {
 
-}
 
 const login = async (req, res) => {
     console.log('req.boody', req.body)
@@ -78,9 +76,7 @@ const login = async (req, res) => {
     }
 }
 
-const agregarDestinatarios = async () => {
 
-}
 
 const revalidarToken = async (req, resp = response) => {
 
@@ -99,8 +95,6 @@ const revalidarToken = async (req, resp = response) => {
 
 
 module.exports = {
-    crearUsuario,
     revalidarToken,
     login,
-    agregarDestinatarios
 }
