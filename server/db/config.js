@@ -21,7 +21,6 @@ mongoose.connect(mongoURL, { useNewUrlParser: true })
                 console.log("Servidor Node está corriendo en el puerto local: " + port)
             });
         } else {
-            console.log('https');
 
         }
     })

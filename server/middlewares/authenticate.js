@@ -5,10 +5,8 @@ const { jwtSecretKey } = require("../config/general");
 const moment = require('moment');
 
 exports.ensureAuth = async function(req, res, next) {
-    console.log('authenticate.js req.headers', req.headers)
     if (!req.headers.authorization) {
 
-        console.log('La petición no tiene cabecera de authorization');
         return res.status(403).send({
             message: "La petición no tiene cabecera de authorization"
         })
@@ -29,7 +27,6 @@ exports.ensureAuth = async function(req, res, next) {
             }
 
             req.user = payload;
-            console.log(req.user);
 
             next();
 

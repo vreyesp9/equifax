@@ -33,7 +33,7 @@ const login = async (req, res) => {
         const user = await usuarios.findOne({ rut: rut.toString() });
         console.log('usuarios', usuarios)
         await console.log("user", user);
-        if (!user) return res.status(200).json({ success: false, msg: 'Usuario o contraseña incorrecto' });
+        if (!user) return res.status(400).json({ success: false, msg: 'Usuario o contraseña incorrecto' });
         console.log('1', password.toString())
         console.log('2', user.password.toString())
 
@@ -62,7 +62,8 @@ const login = async (req, res) => {
                 success: true,
                 msg: 'Usuario encontrado',
                 data: {
-                    token: token
+                    token: token,
+                    user: user.nombre
                 }
             });
         } else {

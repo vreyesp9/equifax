@@ -9,7 +9,6 @@ var app = express();
 var user_routes = require("./routes/user.route");
 var tickets_routes = require("./routes/tickets.route");
 
-var transferencia_routes = require("./routes/transferencia.route");
 
 const fileUpload = require('express-fileupload')
 var cors = require("cors");

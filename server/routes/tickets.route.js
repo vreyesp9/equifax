@@ -12,6 +12,7 @@ var api = express.Router();
 api.get('/getTickets', ticketController.getTickets);
 api.put('/updateTickets', ticketController.updateTickets);
 api.delete('/deleteTickets', ticketController.deleteTickets);
+api.post('/addTickets', ticketController.addTickets);
 
 
 module.exports = api;

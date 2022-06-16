@@ -7,39 +7,31 @@ const config = require('../config/general');
 
 const User = require("../models/usuario.model")
 
-const Tickets = require("../models/tickets.model")
+const Tickets = require("../models/tickets.model");
+const { jwtSecretKey } = require('../config/general');
 
-const crearDestinatario = async (req, res) => {
-    await console.log("get tipo de cuenta controlador", req.user);
-    var { banco, correo, nombre, nroCuenta, rut, telefono, tipoCuenta } = req.body;
-    rut = rut.replace("-", "");
-    rut = rut.replace(/\./g, "");
-    let dv = rut[rut.length - 1];
-    rut = rut.slice(0, -1);
 
-    const des = { rut: rut, dv: dv, banco: banco, correo: correo, nombre: nombre, nroCuenta: nroCuenta, telefono: telefono, tipoCuenta: tipoCuenta }
-
-    try {
-        var user = await User.findById(req.user.id);
-        user.destinatarios.push(des);
-        user = await user.save();
-        if (!user) return res.send({ success: false, msg: "Ha ocurrido un problema al crear el destinatario" })
-        return res.send({ success: true })
-    } catch (error) {
-        console.log(error);
-        return res.send({ success: false, msg: "Ha ocurrido un problema al buscar los tipos de cuentas bancarias" })
-    }
-}
 
 const getTickets = async (req, res) => {
-    console.log('get Tickets', getTickets)
     try {
         var tickets = await Tickets.find({});
-        if (!tickets) return res.send({ success: false, msg: "No tiene Tickets" })
-        return res.send({ success: true, data: tickets })
+        if (!tickets) return res.status(400).json({
+            success: false,
+            msg: 'No exiten tickets.',
+        })
+
+        return res.status(200).json({
+            success: true,
+            data: tickets,
+            msg: 'Tickets Encontrados.',
+        })
+
+
     } catch (error) {
-        await console.log("error", error);
-        return res.send({ success: false, msg: "Ha ocurrido un problema al buscar los tickets" })
+        return res.status(400).json({
+            success: false,
+            msg: 'Ha ocurrido un problema al buscar tickets.',
+        })
     }
 }
 
@@ -47,41 +39,100 @@ const deleteTickets = async (req, res) => {
 
     try {
         var tickets = await Tickets.deleteOne(req.id)
-        if (!tickets) return res.send({ success: false, msg: "Error al eliminar" })
-        return res.send({ success: true, data: 'Se elimino Correctamente' })
+
+        if (!tickets) return res.status(400).json({
+            success: false,
+            msg: 'Error al eliminar Ticket',
+        })
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Ticket eliminado correctamente.',
+        })
 
     } catch (error) {
-        await console.log("error", error);
-        return res.send({ success: false, msg: "Ha ocurrido un problema al eliminar el ticket" })
+        return res.status(400).json({
+            success: false,
+            msg: 'Ha ocurrido un problema al eliminar el ticket',
+        })
     }
 }
 
 
 const updateTickets = async (req, res) => {
-
     try {
-        var tickets = await Tickets.updateOne({ _id: req.id }, {
-            id: req.id,
-            titulo: req.titulo,
-            descripcion: req.descripcion,
-            status: req.status,
-            ejecutivo: 'victor'
+        var tickets = await Tickets.updateOne({ _id: req.body._id }, {
+            id: req.body.id,
+            titulo: req.body.titulo,
+            descripcion: req.body.descripcion,
+            status: req.body.status,
+            ejecutivo: req.body.ejecutivo
         });
-        if (!tickets) return res.send({ success: false, msg: "No se pudo actualizar el  Ticket" })
-        return res.send({ success: true, data: 'Ticket actualizado correctamente' })
 
+        if (!tickets) return res.status(400).json({
+            success: false,
+            msg: 'Error al actualizar Ticket',
+        })
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Ticket actualizado correctamente.',
+        })
 
 
     } catch (error) {
-        await console.log("error", error);
-        return res.send({ success: false, msg: "Ha ocurrido un problema al actualizar el ticket" })
+        return res.status(400).json({
+            success: false,
+            msg: 'Error al actualizar Ticket',
+        })
     }
 }
 
 
 
+
+
+
+const addTickets = async (req, res) => {
+    try {
+
+        var ticket = await new Tickets({
+
+            id: Math.floor(Math.random() * 1000000000),
+            titulo: req.body.titulo,
+            descripcion: req.body.descripcion,
+            status: req.body.status,
+            ejecutivo: req.body.nombre
+        })
+
+
+        await ticket.save();
+
+        if (!ticket) return res.status(400).json({
+            success: false,
+            msg: 'Error al crear Ticket',
+        })
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Ticket creado correctamente.',
+        })
+
+
+
+
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            msg: 'Error al crear Ticket',
+        })
+    }
+}
+
+
 module.exports = {
     getTickets,
     updateTickets,
-    deleteTickets
+    deleteTickets,
+    addTickets
 }
