@@ -10,7 +10,6 @@ var api = express.Router();
 
 // Login de usuario
 api.post('/login', userController.login);
-api.post('/add/destinatarios', userController.agregarDestinatarios);
 
 
 module.exports = api;
