@@ -12,6 +12,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { TicketComponent } from './ticket.component';
 import { MainLayoutModule } from '../main-layout/main-layout.module';
 import { MDBBootstrapModule, ModalModule } from 'angular-bootstrap-md';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddTicketComponent } from './add-ticket/add-ticket.component';
 
 
 
@@ -31,6 +33,6 @@ import { MDBBootstrapModule, ModalModule } from 'angular-bootstrap-md';
     ModalModule,
     AutocompleteLibModule
   ],
-  declarations: [TicketComponent],
+  declarations: [TicketComponent, AddTicketComponent],
 })
 export class TicketModule { }

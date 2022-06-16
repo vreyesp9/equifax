@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RutValidator } from 'ng9-rut';
+import { DataUserService } from 'src/app/services/subject/data-user.service';
 import { UserService } from 'src/app/services/users.service';
 import Swal from 'sweetalert2';
 
@@ -16,11 +17,13 @@ export class LoginComponent implements OnInit {
   public userForm: FormGroup;
   public identity;
   public token;
+  userName: any;
 
   constructor(private fb: FormBuilder,
     private rutValidator: RutValidator,
     private _userService: UserService,
     private _router: Router,
+    private _dataUser: DataUserService
 
 
 
@@ -36,22 +39,24 @@ export class LoginComponent implements OnInit {
 
 
   login() {
-    console.log(this.userForm);
     this._userService.login(this.userForm.value.rut, this.userForm.value.password).subscribe(
       response => {
-       if (response["success"]) {
-        sessionStorage.setItem("identity-equifax", response.data.token);
-        this._router.navigate(['/home']);
-       }else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al autenticar',
-          text: response["msg"],
-        });
-       }
+        if (response["success"]) {
+     
+          this.userName = response.data.user
+          this._dataUser.sendData(this.userName);
+
+          sessionStorage.setItem("identity-equifax", response.data.token);
+          this._router.navigate(['/home']);
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al autenticar',
+            text: response["msg"],
+          });
+        }
       },
       error => {
-        console.log('error', error)
         Swal.fire({
           icon: 'error',
           title: 'Error al autenticar',

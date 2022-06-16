@@ -1,3 +1,5 @@
-table {
-    width: 100%;
-  }
+.card-body{
+width: 85%;
+display: flex;
+justify-content: flex-end;
+}
