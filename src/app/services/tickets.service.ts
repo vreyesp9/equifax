@@ -15,19 +15,8 @@ export class TicketsService {
         this.url = (config.local) ? "http://localhost:4000/api/v1" : "http://128.199.13.218:4000/api/v1";
     }
 
-    postNuevoDestinatario(user): Observable<any> {
-        const token = sessionStorage.getItem("identity-equifax");
-        let headers = new HttpHeaders({
-            'Content-type': 'application/json',
-            'Authorization': "Bearer " + token
-        })
-        var params = user
-        return this._http.post(this.url + '/tr/nuevo/destinatario', params, { headers: headers })
-            .pipe(map(response => response));
-    }
 
     deleteTickets(data) {
-        console.log('update')
         var params = data
 
         const token = sessionStorage.getItem("identity-equifax");
@@ -40,7 +29,6 @@ export class TicketsService {
             .pipe(map(response => response));
     }
     updateTicket(value): Observable<any> {
-        console.log('update')
         var params = value
 
         const token = sessionStorage.getItem("identity-equifax");
@@ -54,7 +42,6 @@ export class TicketsService {
     }
 
     getTickets(): Observable<any> {
-        console.log('get Tickets')
         const token = sessionStorage.getItem("identity-equifax");
         let headers = new HttpHeaders({
             'Content-type': 'application/json',
@@ -65,69 +52,21 @@ export class TicketsService {
             .pipe(map(response => response));
     }
 
-    getTipoCUenta(): Observable<any> {
-        console.log("hola");
-
-        var params = {}
+    addTickets(data, dataEjecutivo): Observable<any> {
+        var params = {
+            titulo: data.titulo,
+            descripcion: data.descripcion,
+            status: data.status,
+            nombre: dataEjecutivo
+        };
         const token = sessionStorage.getItem("identity-equifax");
-
         let headers = new HttpHeaders({
             'Content-type': 'application/json',
             'Authorization': "Bearer " + token
         })
-
-        return this._http.get(this.url + '/tr/list/cuentas', { headers: headers })
-    }
-
-    getBancos(): Observable<any> {
-
-
-        let headers = new HttpHeaders({
-            'Content-type': 'application/json',
-        })
-
-        return this._http.get('https://bast.dev/api/banks.php', { headers: headers })
+        return this._http.post(this.url + '/tickets/addTickets', params, { headers: headers })
             .pipe(map(response => response));
     }
 
-    postTransferencia(data): Observable<any> {
-
-
-        let headers = new HttpHeaders({
-            'Content-type': 'application/json',
-        })
-
-        var params;
-        params = {
-            //faltan params
-        }
-        return this._http.post(this.url + '/tr/nueva/transferencia', params, { headers: headers })
-            .pipe(map(response => response));
-    }
-
-
-    getMisdestinatarios(): Observable<any> {
-        var params = {}
-        const token = sessionStorage.getItem("identity-equifax");
-
-        let headers = new HttpHeaders({
-            'Content-type': 'application/json',
-            'Authorization': "Bearer " + token
-        })
-
-        return this._http.get(this.url + '/tr/list/destinatarios', { headers: headers })
-    }
-
-    transferir(data): Observable<any> {
-        var params = data
-        const token = sessionStorage.getItem("identity-equifax");
-
-        let headers = new HttpHeaders({
-            'Content-type': 'application/json',
-            'Authorization': "Bearer " + token
-        })
-
-        return this._http.post(this.url + '/tr/transferir', params, { headers: headers });
-    }
 
 }

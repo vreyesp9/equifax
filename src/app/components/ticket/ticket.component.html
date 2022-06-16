@@ -8,8 +8,8 @@
     </h3>
     <div class="card-body">
         <div id="table" class="table-editable">
-            <span class="table-add float-right mb-3 mr-2"><a class="text-success"><i class="fas fa-plus fa-2x"
-                        aria-hidden="true"></i></a></span>
+            <span class="table-add float-right mb-3 mr-2"><a class="text-success" (click)="showAddTicketModal()"><i
+                        class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
 
             <table class="table table-bordered table-responsive-md table-striped text-center">
                 <thead>
@@ -26,34 +26,40 @@
                 <tbody>
                     <tr *ngFor="let item of dataTicket">
                         <td class="pt-3-half" contenteditable="false">{{item.id}}</td>
-                        <td class="pt-3-half" (input)="changeValue($event.target.innerHTML , item)"
-                            contenteditable="true">{{item.titulo}}
+                        <td class="pt-3-half">
+                            <label (click)="item.show = !item.show" *ngIf="!item.show">{{item.titulo}}</label>
+                            <input type="text" *ngIf="item.show" [(ngModel)]="item.titulo">
+                            <button *ngIf="item.show" (click)="changeValue(item)">
+                                Guardar
+                            </button>
                         </td>
-                        <td class="pt-3-half" (input)="changeValue($event.target.innerHTML, item)"
-                            contenteditable="true">
-                            {{item.descripcion}}</td>
-                        <td class="pt-3-half" (input)="changeValue($event.target.innerHTML, item)"
-                            contenteditable="true">
-                            {{item.status}}
+                        <td class="pt-3-half">
+                            <label (click)="item.show = !item.show" *ngIf="!item.show">{{item.descripcion}}</label>
+                            <input type="text" *ngIf="item.show" [(ngModel)]="item.descripcion">
+                            <button *ngIf="item.show" (click)="changeValue(item)">
+                                Guardar
+                            </button>
                         </td>
-                        <td class="pt-3-half" (input)="changeValue($event.target.innerHTML, item)"
-                            contenteditable="true">
-                            {{item.ejecutivo}}</td>
-                        <!-- <td class="pt-3-half"> Acciones
-                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
-                                        aria-hidden="true"></i></a></span>
-                            <span class="table-down"><a href="#!" class="indigo-text"><i
-                                        class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
-                        </td> -->
+                        <td class="pt-3-half">
+                            <label (click)="item.show = !item.show" *ngIf="!item.show">{{item.status}}</label>
+                            <input type="text" *ngIf="item.show" [(ngModel)]="item.status">
+                            <button *ngIf="item.show" (click)="changeValue(item)">
+                                Guardar
+                            </button>
+                        </td>
+                        <td class="pt-3-half">
+                            <label (click)="item.show = !item.show" *ngIf="!item.show">{{item.ejecutivo}}</label>
+                            <input type="text" *ngIf="item.show" [(ngModel)]="item.ejecutivo">
+                            <button *ngIf="item.show" (click)="changeValue(item)">
+                                Guardar
+                            </button>
+                        </td>
                         <td>
                             <span class="table-remove"><button type="button" (click)="deleteTicket(item.id)"
                                     class="btn btn-danger btn-rounded btn-sm my-0">
                                     Eliminar
                                 </button>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#exampleModal">
-                                    Launch demo modal
-                                </button></span>
+                            </span>
                         </td>
                     </tr>
 

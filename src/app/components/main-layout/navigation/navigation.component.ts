@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataUserService } from 'src/app/services/subject/data-user.service';
 
 
 @Component({
@@ -12,14 +13,21 @@ export class NavigationComponent implements OnInit {
 
 
   clicked: boolean;
+  dataEjecutivo: any;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private _dataService: DataUserService) {
+    this.dataUser();
     this.clicked = this.clicked === undefined ? false : true;
   }
 
   ngOnInit() {
   }
+  dataUser() {
+    this._dataService.currentMessage.subscribe(value => {
+      this.dataEjecutivo = value;
+    })
 
+  }
   setClicked(val: boolean): void {
     this.clicked = val;
   }

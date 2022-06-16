@@ -1,7 +1,10 @@
 import Swal from 'sweetalert2';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TicketsService } from 'src/app/services/tickets.service';
 import { MatDialog } from '@angular/material/dialog';
+import { MDBModalService } from 'angular-bootstrap-md';
+import { AddTicketComponent } from './add-ticket/add-ticket.component';
+import { DataUserService } from 'src/app/services/subject/data-user.service';
 
 @Component({
   selector: 'app-ticket',
@@ -10,31 +13,44 @@ import { MatDialog } from '@angular/material/dialog';
   providers: [TicketsService]
 })
 export class TicketComponent implements OnInit {
+  @ViewChild('exampleModal') exampleModal: TemplateRef<any>;
+
   displayedColumns: string[] = ['nombre', 'rut', 'banco', 'tipocuenta', 'monto'];
   historial = [];
   dataSource = ELEMENT_DATA;
   dataTicket;
-  constructor(private _tickets: TicketsService) {
+  modalRef;
+  dataEjecutivo: any;
+  constructor(private _tickets: TicketsService, private dialog: MatDialog, private _dataService: DataUserService) {
     this.getTickets()
+    this.dataUser();
   }
 
   ngOnInit(): void {
   }
-  changeValue(value, value2) {
-    console.log('item', value)
-    console.log('value2', value2)
+
+  dataUser() {
+    this._dataService.currentMessage.subscribe(value => {
+      this.dataEjecutivo = value;
+    })
+
+  }
+
+  changeValue(value2) {
 
 
     this._tickets.updateTicket(value2).subscribe(
       response => {
-        console.log("historiol", response);
         const prueba = response['data']
-        console.log('pruebaa', prueba)
-
-
+        value2.show = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Ticket Actualizado',
+          text: 'Ticket actualizado Correctamente ',
+        });
       },
       error => {
-        console.log('error', error)
+        value2.show = false;
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -45,18 +61,27 @@ export class TicketComponent implements OnInit {
 
 
   }
+  showAddTicketModal(): void {
+    let dialogRef = this.dialog.open(AddTicketComponent, {
+      height: 'fit-content',
+      width: '100%',
+      maxWidth: '900px',
+      disableClose: true
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.getTickets();
+
+    });
+  }
 
   addTicket(data) {
-    this._tickets.addTickets(data).subscribe(
+    this._tickets.addTickets(data,this.dataEjecutivo).subscribe(
       response => {
-        console.log("historiol", response);
         const addValue = response['data']
-        console.log('addValue', addValue)
         this.getTickets();
 
       },
       error => {
-        console.log('error', error)
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -69,18 +94,19 @@ export class TicketComponent implements OnInit {
 
 
   deleteTicket(data) {
-    console.log('eliminar ', data)
 
     this._tickets.deleteTickets(data).subscribe(
       response => {
-        console.log("historiol", response);
         const deleteValue = response['data']
-        console.log('delete', deleteValue)
         this.getTickets();
+        Swal.fire({
+          icon: 'success',
+          title: 'Ticket Eliminado',
+          text: 'Ticket Eliminado Correctamente ',
+        });
 
       },
       error => {
-        console.log('error', error)
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -90,19 +116,16 @@ export class TicketComponent implements OnInit {
     )
 
   }
+
   getTickets(): void {
-    console.log("historiol");
 
     this._tickets.getTickets().subscribe(
       response => {
-        console.log("historiol", response);
         this.dataTicket = response['data']
-        console.log('dataTicket', this.dataTicket)
 
 
       },
-      error => {
-        console.log('error', error)
+      (error) => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
