@@ -1,0 +1,21 @@
+#intro {
+    // background-image: url(../../../../assets/img/fondo.jpg) ;
+    height: 110vh;
+    // background-repeat: no-repeat round;
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(163, 147, 117, 0.233);
+}
+
+
+/* Height for devices larger than 576px */
+
+@media (min-width: 992px) {
+    #intro {
+        margin-top: -58.59px;
+    }
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+}

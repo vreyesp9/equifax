@@ -1,0 +1,77 @@
+<!--Main Navigation-->
+<header>
+
+    <!-- Sidebar -->
+    <div class="sidebar-fixed position-fixed " #sidenav>
+
+        <a class="logo-wrapper waves-effect">
+            <img src="../../../../assets/img/logo/logo.png" class="img-fluid" alt="">
+        </a>
+      
+        <div class="list-group list-group-flush">
+
+            <a routerLink="/home" routerLinkActive="active" class="list-group-item list-group-item-action waves-effect">
+                <mdb-icon fas icon="chart-pie" class="mr-3"></mdb-icon>Inicio
+            </a>
+            <!-- <a routerLink="/home/nuevo-destinatario" routerLinkActive="active"
+                class="list-group-item list-group-item-action waves-effect">
+                <mdb-icon fas icon="user" class="mr-3"></mdb-icon>Nuevo Destinatario
+            </a>
+            <a routerLink="/home/transferir" routerLinkActive="active"
+                class="list-group-item list-group-item-action waves-effect">
+                <mdb-icon fas icon="fa fa-arrow-circle-right" class="mr-3"></mdb-icon>Transferir
+            </a> -->
+            <a routerLink="/ticket" routerLinkActive="active"
+                class="list-group-item list-group-item-action waves-effect">
+                <mdb-icon fas icon="table" class="mr-3"></mdb-icon>Tickets
+
+
+
+
+            </a>
+
+        </div>
+
+    </div>
+    <!-- Sidebar -->
+
+    <!--Navbar-->
+    <mdb-navbar [containerInside]="false" SideClass="navbar navbar-expand-lg navbar-light white">
+
+        <!-- Navbar brand -->
+        <logo class="ml-3">
+            <a class="navbar-brand">
+                <strong style="color:#981f32">¡Bienvenido Victor!</strong>
+            </a>
+        </logo>
+
+        <!-- Collapsible content -->
+        <links>
+
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+
+                </li>
+
+            </ul>
+            <!-- Links -->
+
+            <!-- Search form -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a style="background-color: #981f32; color: white;" class="nav-link border border-light"
+                        (click)="logout()">
+                        <mdb-icon fas icon="fas fa-door-open" class="mr-2"></mdb-icon>Cerrar Sesión
+                    </a>
+                </li>
+
+            </ul>
+        </links>
+        <!-- Collapsible content -->
+
+    </mdb-navbar>
+    <!--/.Navbar-->
+
+</header>
+<!--Main Navigation-->
