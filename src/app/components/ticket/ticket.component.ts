@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
-import { TicketsService } from 'src/app/services/transferencias.service';
+import { TicketsService } from 'src/app/services/tickets.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ticket',
@@ -12,24 +13,93 @@ export class TicketComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'rut', 'banco', 'tipocuenta', 'monto'];
   historial = [];
   dataSource = ELEMENT_DATA;
-
+  dataTicket;
   constructor(private _tickets: TicketsService) {
     this.getTickets()
   }
 
   ngOnInit(): void {
   }
+  changeValue(value, value2) {
+    console.log('item', value)
+    console.log('value2', value2)
 
+
+    this._tickets.updateTicket(value2).subscribe(
+      response => {
+        console.log("historiol", response);
+        const prueba = response['data']
+        console.log('pruebaa', prueba)
+
+
+      },
+      error => {
+        console.log('error', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrio un problema, intente mas tarde',
+        });
+      }
+    )
+
+
+  }
+
+  addTicket(data) {
+    this._tickets.addTickets(data).subscribe(
+      response => {
+        console.log("historiol", response);
+        const addValue = response['data']
+        console.log('addValue', addValue)
+        this.getTickets();
+
+      },
+      error => {
+        console.log('error', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrio un problema, intente mas tarde',
+        });
+      }
+    )
+
+  }
+
+
+  deleteTicket(data) {
+    console.log('eliminar ', data)
+
+    this._tickets.deleteTickets(data).subscribe(
+      response => {
+        console.log("historiol", response);
+        const deleteValue = response['data']
+        console.log('delete', deleteValue)
+        this.getTickets();
+
+      },
+      error => {
+        console.log('error', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrio un problema, intente mas tarde',
+        });
+      }
+    )
+
+  }
   getTickets(): void {
     console.log("historiol");
 
     this._tickets.getTickets().subscribe(
       response => {
         console.log("historiol", response);
-        if (response["success"]) {
-          this.historial = response.data;
-          this.dataSource = this.historial;
-        }
+        this.dataTicket = response['data']
+        console.log('dataTicket', this.dataTicket)
+
+
       },
       error => {
         console.log('error', error)
@@ -50,6 +120,9 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
+
+
+
 
 const ELEMENT_DATA: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },

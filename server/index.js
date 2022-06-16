@@ -36,8 +36,8 @@ app.use((req, res, next) => {
 
 app.use(cors())
 
-app.use("/api/v1/user/", user_routes);
-app.use('/api/v2/', tickets_routes)
+app.use('/api/v1/tickets', tickets_routes)
+app.use('/api/v1/user/', user_routes)
 
 
 module.exports = app;

@@ -11,6 +11,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { TicketComponent } from './ticket.component';
 import { MainLayoutModule } from '../main-layout/main-layout.module';
+import { MDBBootstrapModule, ModalModule } from 'angular-bootstrap-md';
+
 
 
 
@@ -25,6 +27,8 @@ import { MainLayoutModule } from '../main-layout/main-layout.module';
     Ng9RutModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    MDBBootstrapModule.forRoot(),
+    ModalModule,
     AutocompleteLibModule
   ],
   declarations: [TicketComponent],

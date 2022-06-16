@@ -34,18 +34,54 @@ const crearDestinatario = async (req, res) => {
 const getTickets = async (req, res) => {
     console.log('get Tickets', getTickets)
     try {
-        var ticket = await Tickets.find({});
-        console.log('ticket', ticket)
-        if (!user || user.destinatarios.length < 0) return res.send({ success: false, msg: "No tiene Tickets" })
-        return res.send({ success: true, data: user.destinatarios })
+        var tickets = await Tickets.find({});
+        if (!tickets) return res.send({ success: false, msg: "No tiene Tickets" })
+        return res.send({ success: true, data: tickets })
     } catch (error) {
         await console.log("error", error);
         return res.send({ success: false, msg: "Ha ocurrido un problema al buscar los tickets" })
     }
 }
 
+const deleteTickets = async (req, res) => {
+
+    try {
+        var tickets = await Tickets.deleteOne(req.id)
+        if (!tickets) return res.send({ success: false, msg: "Error al eliminar" })
+        return res.send({ success: true, data: 'Se elimino Correctamente' })
+
+    } catch (error) {
+        await console.log("error", error);
+        return res.send({ success: false, msg: "Ha ocurrido un problema al eliminar el ticket" })
+    }
+}
+
+
+const updateTickets = async (req, res) => {
+
+    try {
+        var tickets = await Tickets.updateOne({ _id: req.id }, {
+            id: req.id,
+            titulo: req.titulo,
+            descripcion: req.descripcion,
+            status: req.status,
+            ejecutivo: 'victor'
+        });
+        if (!tickets) return res.send({ success: false, msg: "No se pudo actualizar el  Ticket" })
+        return res.send({ success: true, data: 'Ticket actualizado correctamente' })
+
+
+
+    } catch (error) {
+        await console.log("error", error);
+        return res.send({ success: false, msg: "Ha ocurrido un problema al actualizar el ticket" })
+    }
+}
+
 
 
 module.exports = {
-    getTickets
+    getTickets,
+    updateTickets,
+    deleteTickets
 }

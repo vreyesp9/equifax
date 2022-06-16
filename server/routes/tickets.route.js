@@ -9,5 +9,9 @@ const { validarJWT } = require('../middlewares/validar-jwt')
 var api = express.Router();
 
 // getTicket
-api.get('diego', ticketController.getTickets);
+api.get('/getTickets', ticketController.getTickets);
+api.put('/updateTickets', ticketController.updateTickets);
+api.delete('/deleteTickets', ticketController.deleteTickets);
+
+
 module.exports = api;
