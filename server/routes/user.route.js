@@ -10,6 +10,7 @@ var api = express.Router();
 
 // Login de usuario
 api.post('/login', userController.login);
+api.post("/setUsuario", userController.setUsuario);
 
 
 module.exports = api;

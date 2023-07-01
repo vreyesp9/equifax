@@ -22,15 +22,13 @@ import { Ng9RutModule } from 'ng9-rut';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SocialLoginModule } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
+import { MatCommonModule } from '@angular/material/core';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PrincipalComponent,
-
-  ],
+  declarations: [AppComponent, PrincipalComponent],
   imports: [
-
     HttpClientModule,
     NgxSpinnerModule,
     BrowserModule,
@@ -50,9 +48,27 @@ import { MatDialogModule } from '@angular/material/dialog';
     Ng9RutModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatDialogModule
+    MatDialogModule,
+    SocialLoginModule,
+    MatCommonModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: true,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '148517665605-jspahbqleats6lvlag9kasc2c11b5g7o.apps.googleusercontent.com'
+            ),
+          },
+        ],
+      },
+    },
+    // AuthGuardService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
