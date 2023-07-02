@@ -12,7 +12,9 @@ export class TicketsService {
     public identity;
     public token;
     constructor(private _http: HttpClient) {
-        this.url = (config.local) ? "http://localhost:4000/api/v1" : "http://128.199.13.218:4000/api/v1";
+        this.url = config.local
+          ? 'http://localhost:4000/api/v1'
+          : 'http://3.19.67.37:4000/api/v1';
     }
 
 

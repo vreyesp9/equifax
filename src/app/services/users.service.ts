@@ -13,7 +13,7 @@ export class UserService {
   constructor(private _http: HttpClient) {
     this.url = config.local
       ? 'http://localhost:4000'
-      : 'http://128.199.13.218:4000';
+      : 'http://3.19.67.37:4000';
   }
 
   login(rut, password): Observable<any> {
